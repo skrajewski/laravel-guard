@@ -1,0 +1,23 @@
+{
+    "name": "szykra/laravel-guard",
+    "description": "Easy to use ACL System for Laravel 5",
+    "keywords": ["laravel", "acl", "permissions", "roles", "route"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Szymon Krajewski",
+            "email": "szykra@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/contracts": "~5.0",
+        "illuminate/support": "~5.0",
+        "illuminate/database": "~5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Szykra\\Guard\\": "src/Szykra/Guard/"
+        }
+    },
+    "minimum-stability": "dev"
+}
