@@ -15,5 +15,8 @@ class GuardServiceProvider extends ServiceProvider {
             return $app['auth']->user();
         });
 
+        $this->commands([
+            'Szykra\Guard\Console\CreateRoleConsole'
+        ]);
     }
 }
