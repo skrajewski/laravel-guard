@@ -28,10 +28,12 @@ class CreateRoleConsole extends Command {
      */
     public function fire()
     {
+        $roleModel = config('guard.model.role');
+
         $tag = $this->argument('tag');
         $name = $this->argument('name') ?: Str::title($tag);
 
-        Role::create(compact('tag', 'name'));
+        $roleModel::create(compact('tag', 'name'));
 
         $this->info("Role {$tag} has been created successfully!");
     }

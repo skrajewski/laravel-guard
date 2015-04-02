@@ -18,5 +18,11 @@ class GuardServiceProvider extends ServiceProvider {
         $this->commands([
             'Szykra\Guard\Console\CreateRoleConsole'
         ]);
+
+        $this->publishes([
+            __DIR__.'/../../../config/guard.php' => 'config/guard.php'
+        ]);
+
+        $this->mergeConfigFrom(__DIR__ . '/../../../config/guard.php', 'guard');
     }
 }
