@@ -1,6 +1,7 @@
 {
     "name": "szykra/laravel-guard",
-    "description": "Easy to use ACL System for Laravel 5",
+    "description": "Simple and easy to use roles and permissions system (ACL) for Laravel 5.",
+    "version": "0.1.0",
     "keywords": ["laravel", "acl", "permissions", "roles", "route"],
     "license": "MIT",
     "authors": [
