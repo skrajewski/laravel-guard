@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use Szykra\Guard\Factories\PermissionFactory;
 
 class CreatePermissionConsole extends Command {
 
@@ -25,18 +26,17 @@ class CreatePermissionConsole extends Command {
     /**
      * Execute the console command.
      *
+     * @param PermissionFactory $factory
      * @return mixed
      */
-    public function fire()
+    public function fire(PermissionFactory $factory)
     {
-        $permissionModel = config('guard.model.permission');
-
         $tag = $this->argument('tag');
-        $name = $this->argument('name') ?: Str::title($tag);
+        $name = $this->argument('name');
         $description = $this->option('description');
         $roleName = $this->option('role');
 
-        $permission = $permissionModel::create(compact('tag', 'name', 'description'));
+        $permission = $factory->make($tag, $name, $description);
 
         $this->info("Permission {$tag} has been created successfully!");
 

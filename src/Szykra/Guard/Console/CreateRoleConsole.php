@@ -3,7 +3,7 @@
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
-use Szykra\Guard\Models\Role;
+use Szykra\Guard\Factories\RoleFactory;
 
 class CreateRoleConsole extends Command {
 
@@ -24,16 +24,15 @@ class CreateRoleConsole extends Command {
     /**
      * Execute the console command.
      *
+     * @param RoleFactory $factory
      * @return mixed
      */
-    public function fire()
+    public function fire(RoleFactory $factory)
     {
-        $roleModel = config('guard.model.role');
-
         $tag = $this->argument('tag');
-        $name = $this->argument('name') ?: Str::title($tag);
+        $name = $this->argument('name');
 
-        $roleModel::create(compact('tag', 'name'));
+        $factory->make($tag, $name);
 
         $this->info("Role {$tag} has been created successfully!");
     }

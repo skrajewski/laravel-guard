@@ -19,5 +19,6 @@
             "Szykra\\Guard\\": "src/Szykra/Guard/"
         }
     },
+    "prefer-stable": true,
     "minimum-stability": "dev"
 }
