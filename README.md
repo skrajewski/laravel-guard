@@ -122,8 +122,8 @@ Guard does not defined how you should name your permissions. Try to keep it **si
 ### Creating Roles and Permissions
 You have a lot of possibilities to create _Roles_ or _Permissions_. You can manually insert data to database, create special _Seeder_ to prepare data or use artisan **Guard commands** to create _Role_ and _Permission_ entries on demand.
 
-#### Create using guard commands
-Guard provide new _artisan_ commands:
+#### Create using Artisan CLI
+Guard provides new _artisan_ commands:
 - `guard:grant role permission`
 - `guard:make:role tag [name]`
 - `guard:make:permission tag [name]`
