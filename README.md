@@ -1,7 +1,7 @@
 # Laravel Guard
 Simple and easy to use roles and permissions system *(ACL)* for Laravel 5.
 
-Laravel Guard is package to easy controlling access to parts of your system. It provides simple tool to protect your routes and user methods to checking permissions.
+**Laravel Guard** is package to easy controlling access to parts of your system. It provides simple tool to protect your routes and user methods to checking permissions.
 
 ## Installation
 
@@ -104,8 +104,92 @@ If you don't want to protect all routes you can register this middleware as `$ro
 'guard' => 'Szykra\Guard\Middleware\ProtectRoutes'
 ```
 
-## Create roles and permissions
-@todo
+## Roles and permissions
+Guard provides management for _Roles_ and _Permissions_ but what exactly does that mean?
+
+In complex system we have a lot types of users, e.g. Administrators, Managers, Users or Moderators.
+This types are called **roles**. Users can perform a lot of actions at the system but specific types of users should have
+specified rights called **permissions**. When a user has a role, also has permissions that depend on his role.
+We can check these permissions to prevent or allow specific actions.
+
+### Permission naming convention
+Guard does not defined how you should name your permissions. Try to keep it **simple**, **short**, **consistent** and **easy to remember**. I really like use a simple notation _**RESOURCE.ACTION**_, e.g. `USERS.READ`,  `USERS.UPDATE`. Feel free to use own naming convention, e.g. `read users`, `update user`. The choice is yours!
+
+### Creating Roles and Permissions
+You have a lot of possibilities to create _Roles_ or _Permissions_. You can manually insert data to database, create special _Seeder_ to prepare data or use artisan **Guard commands** to create _Role_ and _Permission_ entries on demand.
+
+#### Create using guard commands
+Guard provide new _artisan_ commands:
+- `guard:grant role permission`
+- `guard:make:role tag [name]`
+- `guard:make:permission tag [name]`
+
+To create new role run below command:
+```sh
+php artisan guard:make:role ADMIN Administrator
+```
+
+Create new permission
+```sh
+php artisan guard:make:permission USERS.READ
+```
+
+To create permission and instantly link it with role use _--role_ option
+```sh
+php artisan guard:make:permission USERS.CREATE -r ADMIN
+```
+
+To link existing role with permission use `guard:grant` command
+```sh
+php artisan guard:grant ADMIN USERS.READ
+```
+
+#### Create using _Seeder_
+If you have a lot of roles and permissions then seeder is a good choice, e.g.
+
+```php
+use Szykra\Guard\Models\Permission;
+use Szykra\Guard\Models\Role;
+use Illuminate\Database\Seeder;
+
+class GuardTableSeeder extends Seeder
+{
+    public function run()
+    {
+        $roles = [
+            'ADMIN'  => 'Administrator',
+            'EDITOR' => 'Content Editor'
+        ];
+
+        $permissions = [
+            ['tag' => 'POSTS.CREATE', 'name' => 'Create posts', 'description' => 'Ability to create new post'],
+            ['tag' => 'POSTS.READ', 'name' => 'Read posts', 'description' => 'Ability to read posts data'],
+            ['tag' => 'POSTS.UPDATE', 'name' => 'Update posts', 'description' => 'Ability to update posts data'],
+            ['tag' => 'POSTS.DELETE', 'name' => 'Delete posts', 'description' => 'Ability to delete posts']
+        ];
+
+        $permModels = [];
+
+        foreach ($permissions as $perm) {
+            $permModels[$perm['tag']] = Permission::create($perm);
+        }
+
+        $rolesToPerm = [
+            'ADMIN'  => ['POSTS.CREATE', 'POSTS.READ', 'POSTS.UPDATE', 'POSTS.DELETE'],
+            'EDITOR' => ['POSTS.CREATE', 'POSTS.READ', 'POSTS.UPDATE']
+        ];
+
+        foreach ($rolesToPerm as $tag => $permissions) {
+            $name = $roles[$tag];
+            $role = Role::create(compact('tag', 'name'));
+
+            foreach ($permissions as $perm) {
+                $role->permissions()->save($permModels[$perm]);
+            }
+        }
+    }
+}
+```
 
 ## Usage
 
@@ -189,7 +273,7 @@ To get user instance use Laravel `Auth` facade or inject instance of **Permissib
 use Szykra\Guard\Contracts\Permissible;
 
 class UsersController extends Controller {
-    
+
     public function __construct(Permissible $user)
     {
         $this->user = $user;
@@ -212,7 +296,7 @@ class UsersController extends Controller {
 use Szykra\Guard\Contracts\Permissible;
 
 class UsersController extends Controller {
-    
+
     public function destroy(Permissible $user, $id)
     {
         if( ! $this->user->can('USERS.DELETE')) {
@@ -226,7 +310,7 @@ class UsersController extends Controller {
 ```
 
 ### Retrieve user by _Auth_ facade
-You can check permissions whereever you have intance of current autheticated user, e.g. by `Auth::user()`.
+You can check permissions wherever you have instance of current authenticated user, e.g. by `Auth::user()`.
 It's very useful in views, when you have to render a part of view only for users with specific permissions.
 
 ```php
@@ -238,3 +322,47 @@ It's very useful in views, when you have to render a part of view only for users
     @endif
 </section>
 ```
+
+### Checking permissions in _Form Request_
+Laravel 5 Form Requests are very nice places to checking permissions. See below example.
+
+```php
+use Szykra\Guard\Contracts\Permissible;
+
+class CreateUserRequest extends Request {
+
+	public function authorize(Permissible $user)
+	{
+		return $user->can("USERS.CREATE");
+	}
+
+	public function rules()
+	{
+        return [
+            // your validation rules
+        ];
+	}
+
+}
+```
+
+## Reaction when user has not enough permissions
+If user has not enough permissions then Guard thrown `InsufficientPermissionException`. You can catch it and return view, redirect or something else.
+
+To catch this exception globally use your _ExceptionHandler_, e.g. `app/Exception/Handler.php`, method `render()`
+
+```php
+public function render($request, Exception $e)
+{
+    if($e instanceof InsufficientPermissionException) {
+        Flash::warning("Insufficient permissions", "You don't have enough permission to access to this section.");
+
+        return redirect()->route('home');
+    }
+
+	return parent::render($request, $e);
+}
+```
+
+## License
+The MIT License. Copyright &copy; 2015 Szymon Krajewski.
