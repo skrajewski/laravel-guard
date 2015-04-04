@@ -27,7 +27,8 @@ class GuardServiceProvider extends ServiceProvider {
 
         $this->commands([
             'Szykra\Guard\Console\CreateRoleConsole',
-            'Szykra\Guard\Console\CreatePermissionConsole'
+            'Szykra\Guard\Console\CreatePermissionConsole',
+            'Szykra\Guard\Console\LinkPermissionWithRoleConsole'
         ]);
 
         $this->publishes([
