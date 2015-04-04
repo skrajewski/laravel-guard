@@ -1,4 +1,8 @@
 # Laravel Guard
+![version](https://img.shields.io/packagist/v/szykra/laravel-guard.svg)
+![codeclimate](https://img.shields.io/codeclimate/github/skrajewski/laravel-guard.svg)
+![license](https://img.shields.io/packagist/l/szykra/laravel-guard.svg)
+
 Simple and easy to use roles and permissions system *(ACL)* for Laravel 5.
 
 **Laravel Guard** is package to easy controlling access to parts of your system. It provides simple tool to protect your routes and user methods to checking permissions.
@@ -9,7 +13,7 @@ Simple and easy to use roles and permissions system *(ACL)* for Laravel 5.
 Add dependency to your `composer.json` file and run `composer update`.
 
 ```json
-to do
+"szykra/laravel-guard": "~0.1.0"
 ```
 
 ## Configuration
