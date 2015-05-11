@@ -20,8 +20,6 @@ trait Permissions
      */
     public function is($role)
     {
-        $this->checkIfRelationToRoleExist();
-
         return $this->role->tag == $role;
     }
 
@@ -33,13 +31,15 @@ trait Permissions
      */
     public function can($permission)
     {
-        $this->checkIfRelationToRoleExist();
+        $adapter = \App::make("Szykra\\Guard\\Contracts\\PermissionChecker");
 
-        if (!$this->permissions) {
-            $this->permissions = array_pluck($this->getPermissions(), 'tag');
-        }
+        return $adapter->roleHasPermission($this->role->tag, $permission);
 
-        return in_array($permission, $this->permissions);
+        // if (!$this->permissions) {
+        //     $this->permissions = array_pluck($this->getPermissions(), 'tag');
+        // }
+        // 
+        // return in_array($permission, $this->permissions);
     }
 
     /**
