@@ -1,0 +1,11 @@
+ADMIN:
+  name: administrator
+  permissions:
+    - POSTS.CREATE
+    - POSTS.READ
+    - POSTS.DELETE
+    - POSTS.UPDATE
+EDITOR:
+  name: content editor
+  permissions:
+    - POSTS.UPDATE

@@ -17,7 +17,7 @@ class GuardServiceProvider extends ServiceProvider {
             return $app['auth']->user();
         });
 
-        $this->app->singleton('Szykra\Guard\Contracts\PermissionChecker', 'Szykra\Guard\Adapters\EloquentAdapter');
+        $this->app->singleton('Szykra\Guard\Contracts\PermissionChecker', 'Szykra\Guard\Adapters\YamlAdapter');
 
         $this->app->bindShared('Szykra\Guard\Factories\RoleFactory', function() {
             return new RoleFactory(config('guard.model.role'));
