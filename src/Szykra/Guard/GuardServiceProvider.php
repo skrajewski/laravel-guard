@@ -34,6 +34,7 @@ class GuardServiceProvider extends ServiceProvider {
         });
 
         $this->app->bind('guard.adapter.eloquent', 'Szykra\Guard\Adapters\EloquentAdapter');
+        $this->app->bind('guard.adapter.yaml', 'Szykra\Guard\Adapters\YamlAdapter');
     }
 
     private function registerFactories()
