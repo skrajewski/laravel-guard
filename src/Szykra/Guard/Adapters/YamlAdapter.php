@@ -12,7 +12,7 @@ class YamlAdapter implements PermissionChecker {
     public function roleHasPermission($role, $permission)
     {
         if(empty(static::$roles)) {
-            static::$roles = Yaml::parse(file_get_contents(__DIR__ . '/../../../../config/config.yaml'));
+            static::$roles = Yaml::parse(file_get_contents(base_path() . '/config/' . config('guard.adapter_config_file')));
         }
 
         return in_array($permission, static::$roles[$role]['permissions']);
