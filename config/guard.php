@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'adapter' => 'yaml',
+    'adapter' => 'eloquent',
 
     /*
     |--------------------------------------------------------------------------
@@ -30,14 +30,14 @@ return [
     'adapter_config_file' => '',
 
     /*
-	|--------------------------------------------------------------------------
-	| Models for eloquent adapter
-	|--------------------------------------------------------------------------
-	|
-	| This option is required by guard generators. If you are using own models
+    |--------------------------------------------------------------------------
+    | Models for eloquent adapter
+    |--------------------------------------------------------------------------
+    |
+    | This option is required by guard generators. If you are using own models
     | (or extend models from package) change paths to correctly.
-	|
-	*/
+    |
+    */
 
     'model' => [
         'role'       => 'Szykra\Guard\Models\Role',
