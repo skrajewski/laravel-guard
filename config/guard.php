@@ -9,11 +9,25 @@ return [
     |
     | This option defined how guard will be checked permissions.
     |
-    | Supported: "eloquent"
+    | Supported: "eloquent", "yaml"
     |
     */
 
-    'adapter' => 'eloquent',
+    'adapter' => 'yaml',
+
+    /*
+    |--------------------------------------------------------------------------
+    |  Adapter config file name
+    |--------------------------------------------------------------------------
+    |
+    | This option defined adapter config file. Configuration file must be
+    | exposed in config directory.
+    |
+    | Example: "security.yaml"
+    |
+    */
+
+    'adapter_config_file' => '',
 
     /*
 	|--------------------------------------------------------------------------
