@@ -32,7 +32,7 @@ class ProtectRoutes implements Middleware
 
         foreach ($needs as $tag) {
             if (!$user->can($tag)) {
-                throw new InsufficientPermissionsException("You doesn't have insufficient permissions to access to {$route->getName()}. This route needs " . implode(', ', $needs) . ".");
+                throw new InsufficientPermissionsException("You don't have sufficient permissions to access {$route->getName()}. This route needs " . implode(', ', $needs) . ".");
             }
         }
 
@@ -76,7 +76,7 @@ class ProtectRoutes implements Middleware
         $user = \App::make('Szykra\Guard\Contracts\Permissible');
 
         if (!$user) {
-            throw new InsufficientPermissionsException("You must be authenticate if you want to check permissions.");
+            throw new InsufficientPermissionsException("You must be authenticated if you want to check permissions.");
         }
 
         return $user;
