@@ -61,7 +61,7 @@ trait Permissions
     private function checkIfRelationToRoleExist()
     {
         if (!method_exists($this, 'role')) {
-            throw new MissingRoleRelationException('Please set relation to role as public role() method.');
+            throw new MissingRoleRelationException("Please set a relation to a role as a public role() method.");
         }
     }
 
