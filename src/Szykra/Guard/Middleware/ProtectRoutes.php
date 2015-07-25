@@ -19,8 +19,6 @@ class ProtectRoutes implements Middleware
      */
     public function handle($request, Closure $next)
     {
-        $next($request);
-
         $route = $request->route();
         $needs = $this->routeNeedsPermission($route);
 
