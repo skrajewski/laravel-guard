@@ -303,7 +303,7 @@ class UsersController extends Controller {
 
     public function destroy(Permissible $user, $id)
     {
-        if( ! $this->user->can('USERS.DELETE')) {
+        if( ! $user->can('USERS.DELETE')) {
             // redirect, exception, flash message, etc.
         }
 
